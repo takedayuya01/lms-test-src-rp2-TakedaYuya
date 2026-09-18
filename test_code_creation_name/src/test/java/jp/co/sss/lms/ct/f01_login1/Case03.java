@@ -65,6 +65,10 @@ public class Case03 {
 		WebElement passwordElement = webDriver.findElement(By.id("password"));
 		passwordElement.clear();
 		passwordElement.sendKeys("StudentAA011");
+
+		getEvidence(new Object() {
+		}, "input");
+
 		//  ログインボタンをクリック
 		webDriver.findElement(By.className("btn-primary")).click();
 		getEvidence(new Object() {
