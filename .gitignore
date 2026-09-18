@@ -40,4 +40,4 @@ replay_pid*
 .classpath
 .project
 .springBeans 
-spring-*/src/main/java/META-INF/MANIFEST.M
+spring-*/src/main/java/META-INF/MANIFEST.MF
