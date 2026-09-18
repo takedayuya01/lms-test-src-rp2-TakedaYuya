@@ -42,7 +42,7 @@ public class Case01 {
 		webDriver.get(url);
 		assertEquals("ログイン | LMS", webDriver.getTitle());
 		getEvidence(new Object() {
-		}, "Case01_test01");
+		});
 
 	}
 }
