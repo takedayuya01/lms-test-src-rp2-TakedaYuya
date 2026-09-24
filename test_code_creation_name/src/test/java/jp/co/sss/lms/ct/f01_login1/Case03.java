@@ -69,6 +69,7 @@ public class Case03 {
 
 		//  ログインボタンをクリック
 		webDriver.findElement(By.className("btn-primary")).click();
+
 		WebElement courseDetail = webDriver.findElement(By.className("active"));
 		String actualText = courseDetail.getText();
 		assertEquals("コース詳細", actualText);
