@@ -40,8 +40,8 @@ public class Case03 {
 	void test01() {
 
 		// コンテキストパス /lms を含めたURLを指定
-		String url = "http://localhost:" + 8080 + "/lms";
-		webDriver.get(url);
+		goTo("http://localhost:" + 8080 + "/lms");
+
 		assertEquals("ログイン | LMS", webDriver.getTitle());
 		getEvidence(new Object() {
 		});
@@ -53,8 +53,6 @@ public class Case03 {
 	@DisplayName("テスト02 初回ログイン済みの受講生ユーザーでログイン")
 	void test02() {
 
-		String url = "http://localhost:" + 8080 + "/lms";
-		webDriver.get(url);
 		// 存在するユーザーのログインIDを入力
 		WebElement loginIdElement = webDriver.findElement(By.id("loginId"));
 		loginIdElement.clear();

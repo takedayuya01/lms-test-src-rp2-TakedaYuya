@@ -38,8 +38,9 @@ public class Case01 {
 	void test01() {
 		// TODO ここに追加
 		// コンテキストパス /lms を含めたURLを指定
-		String url = "http://localhost:" + 8080 + "/lms";
-		webDriver.get(url);
+		goTo("http://localhost:" + 8080 + "/lms");
+		;
+
 		assertEquals("ログイン | LMS", webDriver.getTitle());
 		getEvidence(new Object() {
 		});
