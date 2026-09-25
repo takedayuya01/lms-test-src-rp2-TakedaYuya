@@ -39,12 +39,10 @@ public class Case04 {
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
 
-		String url = "http://localhost:" + 8080 + "/lms";
-		webDriver.get(url);
+		goTo("http://localhost:" + 8080 + "/lms");
 		assertEquals("ログイン | LMS", webDriver.getTitle());
 		getEvidence(new Object() {
 		});
-
 
 	}
 
@@ -53,9 +51,6 @@ public class Case04 {
 	@DisplayName("テスト02 初回ログイン済みの受講生ユーザーでログイン")
 	void test02() {
 
-
-		String url = "http://localhost:" + 8080 + "/lms";
-		webDriver.get(url);
 		// 存在するユーザーのログインIDを入力
 		WebElement loginIdElement = webDriver.findElement(By.id("loginId"));
 		loginIdElement.clear();
@@ -85,10 +80,6 @@ public class Case04 {
 	@DisplayName("テスト03 上部メニューの「ヘルプ」リンクからヘルプ画面に遷移")
 	void test03() {
 
-
-		String url = "http://localhost:8080/lms/course/detail";
-		webDriver.get(url);
-
 		visibilityTimeout(By.linkText("機能"), 5);
 		webDriver.findElement(By.linkText("機能")).click();
 
@@ -102,16 +93,13 @@ public class Case04 {
 		getEvidence(new Object() {
 		}, "help");
 
-		
-
-
 	}
 
 	@Test
 	@Order(4)
 	@DisplayName("テスト04 「よくある質問」リンクからよくある質問画面を別タブに開く")
 	void test04() {
-		// TODO ここに追加
+
 		webDriver.findElement(By.linkText("よくある質問")).click();
 		//visibilityTimeout(By.cssSelector("form-horizontal"), 5);
 		Object[] windowHandles = webDriver.getWindowHandles().toArray();
@@ -120,7 +108,6 @@ public class Case04 {
 		assertEquals("よくある質問 | LMS", webDriver.getTitle());
 		getEvidence(new Object() {
 		}, "Question");
-
 
 	}
 
