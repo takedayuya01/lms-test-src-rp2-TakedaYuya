@@ -117,7 +117,7 @@ public class Case06 {
 		//formを取得
 		WebElement categoryElement = webDriver.findElement(By.partialLinkText("研修関係"));
 		categoryElement.click();
-		scrollTo("1000");
+		scrollTo("250");
 		//検索結果のリストを取得
 		List<WebElement> seachList = webDriver.findElements(By.cssSelector("tbody tr td dl"));
 		//質問が一致しているかの確認
@@ -136,7 +136,7 @@ public class Case06 {
 		//「研修関係」のリンクの要素を取得
 		WebElement categoryElement = webDriver.findElement(By.partialLinkText("研修関係"));
 		categoryElement.click();
-		scrollTo("1400");
+		scrollTo("500");
 		//検索結果のリストを取得
 		List<WebElement> searchList = webDriver.findElements(By.cssSelector("tbody tr td dl"));
 		//検索結果のリスト要素を順番にクリック
