@@ -23,7 +23,7 @@ import org.openqa.selenium.WebElement;
  */
 @TestMethodOrder(OrderAnnotation.class)
 @DisplayName("ケース06 カテゴリ検索 正常系")
-public class Case06<faqCategoryList> {
+public class Case06 {
 
 	/** 前処理 */
 	@BeforeAll
@@ -41,8 +41,7 @@ public class Case06<faqCategoryList> {
 	@Order(1)
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
-		String url = "http://localhost:" + 8080 + "/lms";
-		webDriver.get(url);
+		goTo("http://localhost:" + 8080 + "/lms");
 		assertEquals("ログイン | LMS", webDriver.getTitle());
 		getEvidence(new Object() {
 		});
@@ -52,8 +51,7 @@ public class Case06<faqCategoryList> {
 	@Order(2)
 	@DisplayName("テスト02 初回ログイン済みの受講生ユーザーでログイン")
 	void test02() {
-		String url = "http://localhost:" + 8080 + "/lms";
-		webDriver.get(url);
+
 		// 存在するユーザーのログインIDを入力
 		WebElement loginIdElement = webDriver.findElement(By.id("loginId"));
 		loginIdElement.clear();
@@ -82,8 +80,6 @@ public class Case06<faqCategoryList> {
 	@Order(3)
 	@DisplayName("テスト03 上部メニューの「ヘルプ」リンクからヘルプ画面に遷移")
 	void test03() {
-		String url = "http://localhost:8080/lms/course/detail";
-		webDriver.get(url);
 
 		visibilityTimeout(By.linkText("機能"), 5);
 		webDriver.findElement(By.linkText("機能")).click();
@@ -104,7 +100,7 @@ public class Case06<faqCategoryList> {
 	@Order(4)
 	@DisplayName("テスト04 「よくある質問」リンクからよくある質問画面を別タブに開く")
 	void test04() {
-		webDriver.findElement(By.linkText("よくある質問")).click();
+		webDriver.findElement(By.partialLinkText("よくある質問")).click();
 		//visibilityTimeout(By.cssSelector("form-horizontal"), 5);
 		Object[] windowHandles = webDriver.getWindowHandles().toArray();
 		webDriver.switchTo().window((String) windowHandles[1]);
@@ -118,14 +114,46 @@ public class Case06<faqCategoryList> {
 	@Order(5)
 	@DisplayName("テスト05 カテゴリ検索で該当カテゴリの検索結果だけ表示")
 	void test05() {
-		List<faqCategoryList> elements = (List<faqCategoryList>) webDriver.findElements(null);
+		//formを取得
+		WebElement categoryElement = webDriver.findElement(By.partialLinkText("研修関係"));
+		categoryElement.click();
+		scrollTo("1000");
+		//検索結果のリストを取得
+		List<WebElement> seachList = webDriver.findElements(By.cssSelector("tbody tr td dl"));
+		//質問が一致しているかの確認
+		assertEquals("Q.キャンセル料・途中退校について", seachList.getFirst().getText());
+		assertEquals("Q.研修の申し込みはどのようにすれば良いですか？", seachList.getLast().getText());
+
+		getEvidence(new Object() {
+		}, "categorySearch");
+
 	}
 
 	@Test
 	@Order(6)
 	@DisplayName("テスト06 検索結果の質問をクリックしその回答を表示")
 	void test06() {
-		// TODO ここに追加
+		//「研修関係」のリンクの要素を取得
+		WebElement categoryElement = webDriver.findElement(By.partialLinkText("研修関係"));
+		categoryElement.click();
+		scrollTo("1400");
+		//検索結果のリストを取得
+		List<WebElement> searchList = webDriver.findElements(By.cssSelector("tbody tr td dl"));
+		//検索結果のリスト要素を順番にクリック
+		for (WebElement element : searchList) {
+			element.click();
+		}
+		//回答（A.）要素のリストを取得
+		List<WebElement> answerList = webDriver.findElements(By.id("answer-h[${status.index}]"));
+		//表示されている内容が正しいかの一致確認
+		assertEquals("A. 受講者の退職や解雇等、やむを得ない事情による途中終了に関してなど、事情をお伺いした上で、協議という形を取らせて頂きます。 弊社営業担当までご相談下さい。",
+				answerList.getFirst().getText());
+		assertEquals(
+				"A. 営業担当がいる場合は、営業担当までご連絡ください。 申し込み方法についてご案内させていただきます。 なお、弊社営業営業がいない場合は、東京ITスクール運営事務局までご連絡いただけると幸いです。",
+				answerList.getLast().getText());
+		getEvidence(new Object() {
+		}, "SearchResult");
+
 	}
 
 }
