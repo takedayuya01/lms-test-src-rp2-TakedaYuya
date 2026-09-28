@@ -101,7 +101,7 @@ public class Case04 {
 	void test04() {
 
 		webDriver.findElement(By.linkText("よくある質問")).click();
-		//visibilityTimeout(By.cssSelector("form-horizontal"), 5);
+
 		Object[] windowHandles = webDriver.getWindowHandles().toArray();
 		webDriver.switchTo().window((String) windowHandles[1]);
 
