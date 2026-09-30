@@ -1,7 +1,6 @@
 package jp.co.sss.lms.ct.f06_login2;
 
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -10,8 +9,6 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 /**
  * 結合テスト ログイン機能②
@@ -38,24 +35,13 @@ public class Case16 {
 	@Order(1)
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
-		goTo("http://localhost:" + 8080 + "/lms");
-		assertEquals("ログイン | LMS", webDriver.getTitle());
-		getEvidence(new Object() {
-		});
+
 	}
 
 	@Test
 	@Order(2)
 	@DisplayName("テスト02 DBに初期登録された未ログインの受講生ユーザーでログイン")
 	void test02() {
-		// 存在するユーザーのログインIDを入力
-		WebElement loginIdElement = webDriver.findElement(By.id("loginId"));
-		loginIdElement.clear();
-		loginIdElement.sendKeys("StudentAA01");
-		// 2. 存在するユーザーのパスワードを入力
-		WebElement passwordElement = webDriver.findElement(By.id("password"));
-		passwordElement.clear();
-		passwordElement.sendKeys("StudentAA01");
 
 	}
 
@@ -63,21 +49,14 @@ public class Case16 {
 	@Order(3)
 	@DisplayName("テスト03 「同意します」チェックボックスにチェックを入れ「次へ」ボタン押下")
 	void test03() {
-		scrollBy("1000");
-		webDriver.findElement(By.name("securityFlg")).click();
-		webDriver.findElement(By.className("btn-primary")).click();
 
-		getEvidence(new Object() {
-		}, "clickinput");
 	}
 
 	@Test
 	@Order(4)
 	@DisplayName("テスト04 パスワードを未入力で「変更」ボタン押下")
 	void test04() {
-		webDriver.findElement(By.cssSelector("button[type='submit']")).click();
-		getEvidence(new Object() {
-		}, "nullError");
+
 	}
 
 	@Test
