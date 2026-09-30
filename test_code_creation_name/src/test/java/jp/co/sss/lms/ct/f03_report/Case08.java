@@ -81,7 +81,7 @@ public class Case08 {
 
 		for (WebElement row : rowList) {
 			String rowTextString = row.getText();
-			if (rowTextString.equals("未提出")) {
+			if (rowTextString.equals("提出済み")) {
 				WebElement clickElement = webDriver.findElement(By.cssSelector("input[type='submit']"));
 				clickElement.click();
 				break;
@@ -95,28 +95,54 @@ public class Case08 {
 	@Order(4)
 	@DisplayName("テスト04 「確認する」ボタンを押下しレポート登録画面に遷移")
 	void test04() {
-		// TODO ここに追加
+
+		WebElement confirmElement = webDriver.findElement(By.cssSelector("input[type='submit']"));
+		confirmElement.click();
+		getEvidence(new Object() {
+		}, "confirm");
 	}
 
 	@Test
 	@Order(5)
 	@DisplayName("テスト05 報告内容を修正して「提出する」ボタンを押下しセクション詳細画面に遷移")
 	void test05() {
-		// TODO ここに追加
+		WebElement contentElement = webDriver.findElement(By.className("form-control"));
+		contentElement.clear();
+		contentElement.sendKeys("日報を更新する");
+		WebElement submitElement = webDriver.findElement(By.cssSelector("button[type='submit']"));
+		getEvidence(new Object() {
+		}, "update");
+		submitElement.click();
+		getEvidence(new Object() {
+		}, "submitInput");
 	}
 
 	@Test
 	@Order(6)
 	@DisplayName("テスト06 上部メニューの「ようこそ○○さん」リンクからユーザー詳細画面に遷移")
 	void test06() {
-		// TODO ここに追加
+		webDriver.findElement(By.partialLinkText("ようこそ")).click();
+		WebElement roginElement = webDriver.findElement(By.tagName("h2"));
+		assertEquals("ユーザー詳細", roginElement.getText());
+		getEvidence(new Object() {
+		}, "welcome");
 	}
 
 	@Test
 	@Order(7)
 	@DisplayName("テスト07 該当レポートの「詳細」ボタンを押下しレポート詳細画面で修正内容が反映される")
 	void test07() {
-		// TODO ここに追加
+		scrollTo("800");
+		String targetDate = "2022年10月1日(土)";
+
+		webDriver.findElement(By.xpath("//tr[td[contains(text(), '" + targetDate + "')]]//input[@type='submit']"))
+				.click();
+
+		visibilityTimeout(By.tagName("h3"), 5);
+		WebElement tagNameElement = webDriver.findElement(By.tagName("h3"));
+		assertEquals("報告レポート", tagNameElement.getText());
+		getEvidence(new Object() {
+		}, "submit");
 	}
 
 }

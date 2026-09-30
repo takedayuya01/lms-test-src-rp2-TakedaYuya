@@ -3,6 +3,8 @@ package jp.co.sss.lms.ct.util;
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -10,6 +12,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -30,9 +33,24 @@ public class WebDriverUtils {
 	 */
 	public static void createDriver() {
 		System.setProperty("webdriver.chrome.driver", "lib/chromedriver.exe");
-		webDriver = new ChromeDriver();
+		System.setProperty("webdriver.chrome.driver", "lib/chromedriver.exe");
+
+		// ChromeOptions を作成して警告ポップアップを無効化する設定を追加
+		ChromeOptions options = new ChromeOptions();
+
+		Map<String, Object> prefs = new HashMap<>();
+		prefs.put("credentials_enable_service", false);
+		prefs.put("profile.password_manager_enabled", false);
+		prefs.put("profile.password_manager_leak_detection", false); // ★これが漏洩警告を消す設定
+		options.setExperimentalOption("prefs", prefs);
+
+		options.addArguments("--disable-save-password-bubble");
+
+		// 設定を渡して Driver を生成
+		webDriver = new ChromeDriver(options);
+		//webDriver = new ChromeDriver();
 	}
-	
+
 	/**
 	 * インスタンス終了
 	 */
@@ -48,7 +66,7 @@ public class WebDriverUtils {
 		webDriver.get(url);
 		pageLoadTimeout(5);
 	}
-	
+
 	/**
 	 * ページロードタイムアウト設定
 	 * @param second
@@ -56,7 +74,7 @@ public class WebDriverUtils {
 	public static void pageLoadTimeout(int second) {
 		webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(second));
 	}
-	
+
 	/**
 	 * 要素の可視性タイムアウト設定
 	 * @param locater
@@ -66,7 +84,7 @@ public class WebDriverUtils {
 		WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(second));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(locater));
 	}
-	
+
 	/**
 	 * 指定ピクセル分だけスクロール
 	 * @param pixel
@@ -75,7 +93,6 @@ public class WebDriverUtils {
 		((JavascriptExecutor) webDriver).executeScript("window.scrollBy(0," + pixel + ");");
 	}
 
-	
 	/**
 	 * 指定位置までスクロール
 	 * @param pixel
